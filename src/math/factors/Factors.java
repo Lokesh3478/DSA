@@ -9,7 +9,10 @@ public class Factors {
         double root = 1;
         int start = 1; 
         int end = n / 2;
-        
+        if(n<=1) {
+        	return n;
+        }
+
         // Binary search for integer part of the square root
         while (start <= end) {
             int mid = start + (end - start) / 2;
@@ -21,13 +24,11 @@ public class Factors {
                 start = mid + 1;
             }
         }
-        
         // Adjusting the root to the closest integer result of the binary search
         root = start - 1;
-        
         // Refining the root to the desired precision
         double incr = 0.1f;
-        for (int i = 1; i < precise; i++) {
+        for (int i = 1; i <= precise; i++) {
             while (root * root < n) {
                 root += incr;
             }
@@ -37,6 +38,18 @@ public class Factors {
         }
         
         return root;
+    }
+    
+    //Newton Raphson Method
+    
+    public static double NewtonRoot(double d) {
+    	double x = d;
+    	double root = (x+(d/x))/2;
+    	while(Math.abs(x-root)>0) {
+    		x = root;
+    		root = (x+(d/x))/2;
+    	}
+    	return root;
     }
     
     // Method to check if a number 'n' is prime
@@ -75,6 +88,26 @@ public class Factors {
         return arr;
     }
     
+    
+    //Euclidean gcd
+    public static int gcd(int a, int b) {
+    	if(b==0) {
+    		return a;
+    	}
+    	return gcd(b,b%a);
+    }
+    
+    //Die hard Problem
+    
+    public boolean canMeasureWater(int x, int y, int target) {
+        if(x+y<target){
+            return false;
+        }
+        System.out.println(gcd(x,y));
+        return target%gcd(x,y)==0;
+
+    }
+    
     public static void main(String[] args) {
         for (int i = 0; i <= 10; i++) {
             System.out.println(i + " " + isPrime(i));
@@ -88,7 +121,8 @@ public class Factors {
         }
         
         for (int i = 1; i <= 100; i++) {
-            System.out.printf("Square root of %d is %.3f\n", i, squareRoot(i, 3));
+            System.out.printf("Square root of %d is %.4f %.4f\n", i, squareRoot(i, 4),NewtonRoot(i));
         }
+        
     }
 }
