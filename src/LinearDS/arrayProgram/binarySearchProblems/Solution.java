@@ -16,8 +16,8 @@ public class Solution {
 	        return binarySearch(arr,a,mid+1,right);
        }
        
-       //34. Find First and Last Position of Element in Sorted Array
-       //https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+	       //34. Find First and Last Position of Element in Sorted Array
+	       //https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
     	    public int[] searchRange(int[] nums, int target) {
     	        int firstIndex = firstOccurence(nums,target,0,nums.length-1,-1);
     	        int lastIndex = lastOccurence(nums,target,0,nums.length-1,-1);
@@ -110,6 +110,27 @@ public class Solution {
     	         
     	         // If the target is not found, search in the decreasing part of the array
     	         return binarySearch(arr, target, peak + 1, arr.length-1, false);
+    	     }
+    	     
+    	     //69. Sqrt(x)
+    	     
+    	     public int mySqrt(int x) {
+    	         if (x <= 1) {
+    	             return x;
+    	         }
+    	         int start = 0, end = x / 2 + 1;
+    	         while (start <= end) {
+    	             int mid = start + (end - start) / 2;
+    	             long square = (long) mid * mid;
+    	             if (square == x) {
+    	                 return mid;
+    	             } else if (square < x) {
+    	                 start = mid + 1;
+    	             } else {
+    	                 end = mid - 1;
+    	             }
+    	         }
+    	         return end;
     	     }
 
        
