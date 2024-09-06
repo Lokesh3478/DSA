@@ -1,8 +1,12 @@
 package LinearDS.LinkedList;
 
-import java.util.ArrayList;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class SinglyLinkedList{
+	private ReentrantLock nodeLock = new ReentrantLock(true);
+	private Condition notEmpty = nodeLock.newCondition();
+	private Condition notFull = nodeLock.newCondition();
 	private class Node{
 		int val;
 		Node next;
@@ -31,7 +35,7 @@ public class SinglyLinkedList{
 		size++;
 	}
 	
-	private int size() {
+	public int size() {
 		return size;
 	}
 	
@@ -99,7 +103,7 @@ public class SinglyLinkedList{
 	}
 	
 	//Delete Node 
-	public void delete(int n) {
+	public void deleteAt(int n) {
 		try {
 			rangeCheck(n);
 			if(n==0) {
@@ -116,6 +120,18 @@ public class SinglyLinkedList{
 		}
 		catch(ArrayIndexOutOfBoundsException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void deleteAll(int n) {
+		Node ptr = head;
+		while(ptr!=null&&ptr.next!=null) {
+			if(ptr.val==ptr.next.val) {
+				ptr.next = ptr.next.next;
+			}
+			else {
+				ptr = ptr.next;
+			}
 		}
 	}
 	
@@ -177,6 +193,11 @@ public class SinglyLinkedList{
         }
         tail.next = l1!=null?l1:l2;
         return res.next;
+    }
+    
+    //Get Value
+    public int get(int i) {
+    	return this.getNode(i).val;
     }
 	
 	

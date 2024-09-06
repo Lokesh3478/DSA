@@ -31,14 +31,30 @@ class NumberConversion{
 		return res;
 	}
 }
-
 public class BitManipulation {
+	public int getBitMask(int i) {
+		return (1<<i);
+	}
+	public int getIthBit(int n,int i) {
+		return ((n&(getBitMask(i)))==getBitMask(i))?1:0;
+	}
+	public int setIthBit(int n,int i) {
+		return n|(getBitMask(i));
+	}
+	public int resetIthBit(int n,int i) {
+		return n&(getBitMask(i)^(getBitMask(i+1)-1));
+	}
 	public static void main(String[] args) {
 		NumberConversion nc = new NumberConversion();
+		BitManipulation bm = new BitManipulation();		
 		int num = 32932021,base = 16; 
 		String str = nc.decimalToBase(num,base);
 		int res = Integer.parseInt(str,base);
 		int testRes = nc.BasetoDecimal(str, base);
 		System.out.println(str+" "+res+" "+testRes);
+		System.out.println(Integer.toBinaryString(10));
+		System.out.println(bm.getIthBit(10,1));
+		System.out.println(Integer.toBinaryString(bm.setIthBit(10,1)));
+		System.out.println(Integer.toBinaryString(bm.resetIthBit(10,1)));
 	}
 }
