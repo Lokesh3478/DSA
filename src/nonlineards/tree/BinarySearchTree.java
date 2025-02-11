@@ -1,5 +1,6 @@
 package nonlineards.tree;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -41,6 +42,13 @@ public class BinarySearchTree<T> {
 		public void setRight(Node<T> right) {
 			this.right = right;
 		}
+
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return data.toString();
+		}
+		
 	}
 	public BinarySearchTree() {
 	}
@@ -123,5 +131,44 @@ public class BinarySearchTree<T> {
 			}
 			System.out.println();
 		}
+	}
+	public void dfs() {
+		ArrayList<Node<T>>inorder = new ArrayList<>();
+		ArrayList<Node<T>>preorder = new ArrayList<>();
+		ArrayList<Node<T>>postorder = new ArrayList<>();
+		dfs(root,1,inorder,preorder,postorder);
+		System.out.print("Preorder : ");
+		for(int i=0;i<preorder.size();i++) {
+			System.out.print(preorder.get(i)+" ");
+		}
+		System.out.print("\ninorder : ");
+		for(int i=0;i<inorder.size();i++) {
+			System.out.print(inorder.get(i)+" ");
+		}
+		System.out.print("\npostorder : ");
+		for(int i=0;i<postorder.size();i++) {
+			System.out.print(postorder.get(i)+" ");
+		}
+		
+	}
+	
+	private void dfs(Node<T> node,int label,ArrayList<Node<T>>inorder,ArrayList<Node<T>>preorder,ArrayList<Node<T>>postorder) {
+		if(node==null) {
+			return;
+		}
+		if(label==1) {
+			preorder.add(node);
+			dfs(node.left,1,inorder,preorder,postorder);
+			dfs(node,2,inorder,preorder,postorder);
+		}
+		else if(label==2) {
+			inorder.add(node);
+			dfs(node.right,1,inorder,preorder,postorder);
+			dfs(node,3,inorder,preorder,postorder);
+		}
+		else {
+			postorder.add(node);
+		}
+		
 	}
 }
