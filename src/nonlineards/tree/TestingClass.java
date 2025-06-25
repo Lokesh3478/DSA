@@ -6,13 +6,17 @@ import java.util.Random;
 public class TestingClass {
 	public static void main(String[] args) {
 		BinarySearchTree<Integer>intBst = new BinarySearchTree<>();
+		AVLTree<Integer>avlTree = new AVLTree<>();
 		Random random = new Random();
 		for(int i=0;i<=10;i++) {
 			int r = random.nextInt(100);
 			intBst.insert(r);
+			avlTree.insert(r);
 		}
 		intBst.bfs();
+		avlTree.bfs();
 		intBst.dfs();
+		avlTree.dfs();
 	}
 }
 class Employee{

@@ -11,7 +11,7 @@ public class BinarySearchTree<T> {
 		T data;
 		private Node<T> left;
 		private Node<T> right;
-		
+		private int height;
 		public Node(T data, Node<T> left, Node<T> right) {
 			super();
 			this.data = data;
@@ -42,24 +42,41 @@ public class BinarySearchTree<T> {
 		public void setRight(Node<T> right) {
 			this.right = right;
 		}
+		
+		
+		public int getHeight() {
+			return height;
+		}
+		public void updateHeight() {
+			int left = this.getLeft()!=null?this.getLeft().getHeight():-1;
+			int right = this.getRight()!=null?this.getRight().getHeight():-1;
+			this.setHeight(1+Math.max(left, right));
+		}
+		public void setHeight(int height) {
+			this.height = height;
+		}
 
 		@Override
 		public String toString() {
 			// TODO Auto-generated method stub
-			return data.toString();
+			return data.toString()+" height: "+this.height;
 		}
 		
 	}
 	public BinarySearchTree() {
 	}
-	
-	
 	public BinarySearchTree(Comparator<T> comparator) {
 		super();
 		this.comparator = comparator;
 	}
-
-
+	
+	
+	public Comparator<T> getComparator() {
+		return comparator;
+	}
+	public void setComparator(Comparator<T> comparator) {
+		this.comparator = comparator;
+	}
 	public void insert(T data) {
 		if(comparator!=null) {
 			root = insertByComparator(root,data);
@@ -74,9 +91,11 @@ public class BinarySearchTree<T> {
 			}
 		}
 	}
-	public Node<T> insertByComparator(Node<T> root,T data) {
+	protected Node<T> insertByComparator(Node<T> root,T data) {
 		if(root==null) {
-			return new Node<T>(data);
+			Node<T> node =  new Node<T>(data);
+			node.setHeight(0);
+			return node;
 		}
 		if(comparator.compare(root.data, data)<1) {
 			root.right = insertByComparator(root.right, data);
@@ -84,12 +103,16 @@ public class BinarySearchTree<T> {
 		else {
 			root.left = insertByComparator(root.left, data);
 		}
+		root.setHeight(1+Math.max(root.left!=null?root.left.getHeight():-1, 
+				root.right!=null?root.right.getHeight():-1));
 		return root;
 		
 	}
-	public Node<T> insertByComparable(Node<T>root,Comparable<? super T>compData) {
+	protected Node<T> insertByComparable(Node<T>root,Comparable<? super T>compData) {
 		if(root==null) {
-			return new Node<T>((T)compData);
+			Node<T> node =  new Node<T>((T)compData);
+			node.setHeight(0);
+			return node;
 		}
 		if(compData.compareTo(root.data)>=1) {
 			root.right = insertByComparable(root.right, compData);
@@ -97,6 +120,8 @@ public class BinarySearchTree<T> {
 		else {
 			root.left = insertByComparable(root.left, compData);
 		}
+		root.setHeight(1+Math.max(root.left!=null?root.left.getHeight():-1, 
+								root.right!=null?root.right.getHeight():-1));
 		return root;
 
 		
@@ -131,6 +156,7 @@ public class BinarySearchTree<T> {
 			}
 			System.out.println();
 		}
+		System.out.println();
 	}
 	public void dfs() {
 		ArrayList<Node<T>>inorder = new ArrayList<>();
@@ -149,6 +175,7 @@ public class BinarySearchTree<T> {
 		for(int i=0;i<postorder.size();i++) {
 			System.out.print(postorder.get(i)+" ");
 		}
+		System.out.print("\n\n");
 		
 	}
 	
